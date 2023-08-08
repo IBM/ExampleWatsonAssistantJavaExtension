@@ -1,8 +1,10 @@
 # Maven Build
-FROM maven:3-ibm-semeru-17-focal AS builder
+FROM icr.io/appcafe/ibm-semeru-runtimes:certified-17-jdk-ubi AS builder
+USER root
+RUN curl -s -L https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz | tar xzf - -C /tmp
 WORKDIR /app
 COPY . /app
-RUN mvn package
+RUN export PATH=/tmp/apache-maven-3.9.4/bin/:$PATH && mvn package
 
 # Build the actual container
 FROM icr.io/appcafe/open-liberty:full-java17-openj9-ubi
@@ -57,6 +59,18 @@ LABEL \
   org.opencontainers.image.licenses="${LICENSE}" \
   license="${LICENSE}"
 
+# Ensure the right user. Normally:
+# USER default
+#
+# However, some versions of Kubernetes do not like using a non-numeric user ID, even
+# thought the 'default' user is mapped to user ID 1001. This can cause errors such as:
+# 
+# container has runAsNonRoot and image has non-numeric user (default), cannot verify user is non-root
+# 
+# Therefore we use an explicit ID
+# 
+USER 1001
+
 COPY --chown=default:root src/main/liberty/config/server.xml /config/server.xml
 COPY --chown=default:root src/main/liberty/config/jvm.options /config/jvm.options
 COPY --chown=default:root src/main/liberty/config/bootstrap.properties /config/bootstrap.properties
@@ -74,17 +88,6 @@ RUN chmod a+w /config/configDropins/defaults/keystore.xml
 # https://www.ibm.com/docs/en/was-liberty/core?topic=resources-webspherelibertydump-custom-resource
 USER root
 RUN mkdir /serviceability && chmod a+rwx /serviceability
-
-# USER default
-#
-# Some versions of Kubernetes do not like using a non-numeric user ID, even
-# thought the 'default' user is mapped to user ID 1001. This can cause errors such as:
-# 
-# container has runAsNonRoot and image has non-numeric user (default), cannot verify user is non-root
-# 
-# Therefore we use an explicit ID
-# 
-USER 1001
 
 # Add some more advanced features that InstantOn can't handle yet
 COPY --chown=default:root src/main/liberty/config/configDropins/defaults/advanced.xml /config/configDropins/defaults/advanced.xml
