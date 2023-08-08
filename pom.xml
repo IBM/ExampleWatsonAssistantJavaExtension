@@ -51,8 +51,8 @@
       When changing a default here, it's usually good to change it in src/main/liberty/config/server.xml also.
     -->
     <liberty.var.APP_NAME>${project.warname}.war</liberty.var.APP_NAME>
-    <liberty.var.HTTP_PORT>9080</liberty.var.HTTP_PORT>
-    <liberty.var.HTTPS_PORT>9443</liberty.var.HTTPS_PORT>
+    <liberty.var.HTTP_PORT>8080</liberty.var.HTTP_PORT>
+    <liberty.var.HTTPS_PORT>8443</liberty.var.HTTPS_PORT>
     <liberty.var.MAX_TRACE_SIZE_MB>100</liberty.var.MAX_TRACE_SIZE_MB>
     <liberty.var.MAX_TRACE_SIZE_COUNT>2</liberty.var.MAX_TRACE_SIZE_COUNT>
     <liberty.var.TRACE_SPECIFICATION>*=info</liberty.var.TRACE_SPECIFICATION>

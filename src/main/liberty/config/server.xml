@@ -21,8 +21,8 @@
     pom.xml also.
   -->
   <variable name="APP_NAME" defaultValue="ewaje.war" />
-  <variable name="HTTP_PORT" defaultValue="9080" />
-  <variable name="HTTPS_PORT" defaultValue="9443" />
+  <variable name="HTTP_PORT" defaultValue="8080" />
+  <variable name="HTTPS_PORT" defaultValue="8443" />
   <variable name="TRACE_SPECIFICATION" defaultValue="*=info" />
   <variable name="MAX_TRACE_SIZE_MB" defaultValue="100" />
   <variable name="MAX_TRACE_SIZE_COUNT" defaultValue="2" />

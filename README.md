@@ -12,13 +12,13 @@
    ```
 1. Run:
    ```
-   podman run --rm -p 9080:9080 -p 9443:9443 -e WLP_LOGGING_CONSOLE_FORMAT=simple -it ewaje
+   podman run --rm -p 8080:8080 -p 8443:8443 -e WLP_LOGGING_CONSOLE_FORMAT=simple -it ewaje
    ```
 1. Wait for the message:
    ```
    CWWKF0011I: The defaultServer server is ready to run a smarter planet.
    ```
-1. Access at <http://localhost:9080/api/helloworld/execute> or <https://localhost:9443/api/helloworld/execute>
+1. Access at <http://localhost:8080/api/helloworld/execute> or <https://localhost:8443/api/helloworld/execute>
 
 ### Build WAR
 
@@ -37,4 +37,4 @@
    ```
    CWWKF0011I: The defaultServer server is ready to run a smarter planet.
    ```
-1. Access at <http://localhost:9080/api/helloworld/execute> or <https://localhost:9443/api/helloworld/execute>
+1. Access at <http://localhost:8080/api/helloworld/execute> or <https://localhost:8443/api/helloworld/execute>

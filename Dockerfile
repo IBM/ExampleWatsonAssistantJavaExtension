@@ -16,8 +16,8 @@ ARG SUMMARY=Example Watson Assistant Java Extension
 ARG DESCRIPTION=Example Watson Assistant Java Extension
 ARG URL=https://github.com/IBM/ExampleWatsonAssistantJavaExtension
 ARG SOURCE=https://github.com/IBM/ExampleWatsonAssistantJavaExtension
-ARG HTTP_PORT=9080
-ARG HTTPS_PORT=9443
+ARG HTTP_PORT=8080
+ARG HTTPS_PORT=8443
 # https://spdx.org/licenses/
 ARG LICENSE="Apache-2.0"
 ARG VERBOSE=false
