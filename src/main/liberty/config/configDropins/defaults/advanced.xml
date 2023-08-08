@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <!-- Optional usage of requestTiming -->
+  <!-- https://openliberty.io/docs/latest/slow-hung-request-detection.html -->
+  <featureManager><feature>requestTiming-1.0</feature></featureManager>
+  <requestTiming
+    slowRequestThreshold="60s"
+    hungRequestThreshold="300s"
+    sampleRate="1"
+  />
+</server>

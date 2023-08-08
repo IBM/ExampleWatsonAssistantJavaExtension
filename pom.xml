@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>ExampleWatsonAssistantJavaExtension</artifactId>
+  <version>0.1.20230808</version>
+  <packaging>war</packaging>
+
+  <!-- Override these with mvn -D${PROPERTY}=${VALUE} -->
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.warname>ewaje</project.warname>
+
+    <!--____________________
+       |                    |
+       | Liberty properties |
+       |____________________|
+                             -->
+
+    <liberty.server.name>${project.artifactId}Server</liberty.server.name>
+
+    <!--
+      For background on packaging types, see:
+      * https://github.com/OpenLiberty/ci.maven/blob/main/docs/package.md#package
+      * https://www.ibm.com/docs/en/was-liberty/nd?topic=line-server-command-options
+    -->
+    <liberty.packaging.type>minify,runnable</liberty.packaging.type>
+
+    <!--
+      Specifying WebSphere Liberty or OpenLiberty:
+      https://github.com/OpenLiberty/ci.maven/blob/main/docs/installation-configuration.md
+    -->
+    <liberty.runtime.groupId>io.openliberty</liberty.runtime.groupId>
+    <liberty.runtime.artifactId>openliberty-kernel</liberty.runtime.artifactId>
+    <!--
+      The default version is the latest but may be explicitly specified if needed:
+      https://central.sonatype.com/artifact/io.openliberty/openliberty-kernel/
+    -->
+    <!--<liberty.runtime.version>23.0.0.6</liberty.runtime.version>-->
+
+    <!--
+      These values get generated into liberty-plugin-variable-config.xml which is then
+      put into configDropins/overrides.
+      When changing a default here, it's usually good to change it in src/main/liberty/config/server.xml also.
+    -->
+    <liberty.var.APP_NAME>${project.warname}.war</liberty.var.APP_NAME>
+    <liberty.var.HTTP_PORT>9080</liberty.var.HTTP_PORT>
+    <liberty.var.HTTPS_PORT>9443</liberty.var.HTTPS_PORT>
+    <liberty.var.MAX_TRACE_SIZE_MB>100</liberty.var.MAX_TRACE_SIZE_MB>
+    <liberty.var.MAX_TRACE_SIZE_COUNT>2</liberty.var.MAX_TRACE_SIZE_COUNT>
+    <liberty.var.TRACE_SPECIFICATION>*=info</liberty.var.TRACE_SPECIFICATION>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>usr-package</id>
+      <properties>
+        <packaging.type>usr</packaging.type>
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.microprofile</groupId>
+      <artifactId>microprofile</artifactId>
+      <version>5.0</version>
+      <type>pom</type>
+      <scope>provided</scope>
+    </dependency>
+    <!--
+    We don't need much from JakartaEE Full, so use the Web profile instead
+    <dependency>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <version>9.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-web-api</artifactId>
+      <version>9.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.warname}</finalName>
+
+    <!-- Use filtering to put variables into a properties file: https://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html -->
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/maven.properties</include>
+        </includes>
+      </resource>
+    </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.10.1</version>
+          <configuration>
+            <compilerArgs>
+              <arg>-Xlint</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.3.2</version>
+        </plugin>
+        <plugin>
+          <groupId>io.openliberty.tools</groupId>
+          <artifactId>liberty-maven-plugin</artifactId>
+          <version>3.7.1</version>
+          <configuration>
+            <serverName>${liberty.server.name}</serverName>
+            <include>${liberty.packaging.type}</include>
+            <mergeServerEnv>true</mergeServerEnv>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <!--
+              Disable the default deploy plugin so that we can
+              use the deploy phase to build the container.
+            -->
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>io.openliberty.tools</groupId>
+        <artifactId>liberty-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- Run some 'liberty:' goals during the Maven 'package' phase -->
+            <phase>package</phase>
+            <goals>
+              <!-- See https://gitter.im/OpenLiberty/development?at=606d08bc92a3431fd67c7aab -->
+              <goal>create</goal>
+              <goal>install-feature</goal>
+              <goal>deploy</goal>
+              <goal>package</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
