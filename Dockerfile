@@ -1,10 +1,10 @@
 # Maven Build
 FROM icr.io/appcafe/ibm-semeru-runtimes:certified-17-jdk-ubi AS builder
 USER root
-RUN curl -s -L https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz | tar xzf - -C /tmp
+RUN curl -s -L https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz | tar xzf - -C /opt
 WORKDIR /app
 COPY . /app
-RUN export PATH=/tmp/apache-maven-3.9.4/bin/:$PATH && mvn package
+RUN PATH="/opt/apache-maven-3.9.4/bin/:${PATH}" mvn package
 
 # Build the actual container
 FROM icr.io/appcafe/open-liberty:full-java17-openj9-ubi
