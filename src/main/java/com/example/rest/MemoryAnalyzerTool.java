@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -34,6 +35,7 @@ public class MemoryAnalyzerTool {
 
 	@Path("isLikelyJavaOrNativeOOM")
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public int isLikelyJavaOrNativeOOM(String javacore) throws Throwable {
 
@@ -53,6 +55,7 @@ public class MemoryAnalyzerTool {
 
 	@Path("isLikelyIBMOr3rdParty")
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public int isLikelyIBMOr3rdParty(String leakSuspectsReport) throws Throwable {
 
