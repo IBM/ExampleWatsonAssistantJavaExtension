@@ -133,6 +133,7 @@
     traceSpecification="${TRACE_SPECIFICATION}"
     maxFileSize="${MAX_TRACE_SIZE_MB}"
     maxFiles="${MAX_TRACE_SIZE_COUNT}"
+    hideMessage="CWMOT0010W"
   />
 
   <!--
