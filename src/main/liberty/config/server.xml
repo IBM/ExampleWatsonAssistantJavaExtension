@@ -72,8 +72,6 @@
       |________________________|
                                 -->
 
-  <!-- The <keystore /> is specified in configDropins/defaults/keystore.xml -->
-
   <!--
     Default SSL configuration enables trust for default certificates from the
     Java runtime.
