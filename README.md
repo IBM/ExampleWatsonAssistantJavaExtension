@@ -4,22 +4,6 @@
 
 ## Local Development
 
-### Build container
-
-1. Build:
-   ```
-   podman build -t ewaje .
-   ```
-1. Run:
-   ```
-   podman run --rm -p 8080:8080 -p 8443:8443 -e WLP_LOGGING_CONSOLE_FORMAT=simple -it ewaje
-   ```
-1. Wait for the message:
-   ```
-   CWWKF0011I: The defaultServer server is ready to run a smarter planet.
-   ```
-1. Access at <http://localhost:8080/api/helloworld/execute> or <https://localhost:8443/api/helloworld/execute>
-
 ### Build WAR
 
 1. Pre-requisities:
@@ -33,6 +17,22 @@
       ```
       mvnw clean liberty:dev
       ```
+1. Wait for the message:
+   ```
+   CWWKF0011I: The defaultServer server is ready to run a smarter planet.
+   ```
+1. Access at <http://localhost:8080/api/helloworld/execute> or <https://localhost:8443/api/helloworld/execute>
+
+### Build container
+
+1. Build:
+   ```
+   podman build -t ewaje .
+   ```
+1. Run:
+   ```
+   podman run --rm -p 8080:8080 -p 8443:8443 -e WLP_LOGGING_CONSOLE_FORMAT=simple -it ewaje
+   ```
 1. Wait for the message:
    ```
    CWWKF0011I: The defaultServer server is ready to run a smarter planet.
