@@ -47,6 +47,14 @@ public class MemoryAnalyzerTool {
 		// 2: Native OOM
 		int result = 0;
 
+		if (javacore != null) {
+			if (javacore.contains("Java heap space")) {
+				result = 1;
+			} else {
+				result = 2;
+			}
+		}
+
 		if (LOG.isLoggable(Level.FINER))
 			LOG.exiting(CLASS_NAME, "isLikelyJavaOrNativeOOM", result);
 
@@ -66,6 +74,17 @@ public class MemoryAnalyzerTool {
 		// 1: IBM
 		// 2: 3rd party
 		int result = 0;
+
+		if (leakSuspectsReport != null) {
+			leakSuspectsReport = leakSuspectsReport.toLowerCase();
+			if (leakSuspectsReport.contains("com.ibm") ||
+			    leakSuspectsReport.contains("java.") ||
+				leakSuspectsReport.contains("com.sun")) {
+				result = 1;
+			} else {
+				result = 2;
+			}
+		}
 
 		if (LOG.isLoggable(Level.FINER))
 			LOG.exiting(CLASS_NAME, "isLikelyIBMOr3rdParty", result);
