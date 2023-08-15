@@ -1,6 +1,6 @@
 # ExampleWatsonAssistantJavaExtension
 
-`ExampleWatsonAssistantJavaExtension` is a [MicroProfile 5](https://openliberty.io/docs/latest/microprofile.html) and [Jakarta EE 9.1 (Web Profile)](https://openliberty.io/docs/latest/jakarta-ee.html) web application for implementing an example Java extension for Watson Assistant.
+`ExampleWatsonAssistantJavaExtension` is a [MicroProfile 5](https://openliberty.io/docs/latest/microprofile.html) and [Jakarta EE 9.1 (Web Profile)](https://openliberty.io/docs/latest/jakarta-ee.html) web application for implementing an example Java extension for Watson Assistant with [OpenLiberty](https://openliberty.io/).
 
 ## Local Development
 
